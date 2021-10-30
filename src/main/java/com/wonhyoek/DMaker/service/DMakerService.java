@@ -3,6 +3,7 @@ package com.wonhyoek.DMaker.service;
 import com.wonhyoek.DMaker.dto.CreateDeveloper;
 import com.wonhyoek.DMaker.dto.DeveloperDetailDto;
 import com.wonhyoek.DMaker.dto.DeveloperDto;
+import com.wonhyoek.DMaker.dto.EditDeveloper;
 import com.wonhyoek.DMaker.entity.Developer;
 import com.wonhyoek.DMaker.exception.DMakerException;
 import com.wonhyoek.DMaker.repository.DeveloperRepository;
@@ -61,5 +62,14 @@ public class DMakerService {
         return DeveloperDetailDto.fromEntity(developer);
 
 
+    }
+    @Transactional
+    public DeveloperDetailDto editDeveloper(String memberId, EditDeveloper.Request request) {
+        Developer developer = developerRepository.findByMemberId(memberId);
+        developer.setDeveloperLevel(request.getDeveloperLevel());
+        developer.setDeveloperSkillType(request.getDeveloperSkillType());
+        developer.setExperienceYears(request.getExperienceYears());
+
+        return DeveloperDetailDto.fromEntity(developer);
     }
 }
