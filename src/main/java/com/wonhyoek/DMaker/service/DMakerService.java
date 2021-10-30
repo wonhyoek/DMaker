@@ -1,17 +1,20 @@
 package com.wonhyoek.DMaker.service;
 
 import com.wonhyoek.DMaker.dto.CreateDeveloper;
+import com.wonhyoek.DMaker.dto.DeveloperDetailDto;
+import com.wonhyoek.DMaker.dto.DeveloperDto;
 import com.wonhyoek.DMaker.entity.Developer;
-import com.wonhyoek.DMaker.exception.DMakerErrorCode;
 import com.wonhyoek.DMaker.exception.DMakerException;
 import com.wonhyoek.DMaker.repository.DeveloperRepository;
 import com.wonhyoek.DMaker.type.DeveloperLevel;
-import com.wonhyoek.DMaker.type.DeveloperSkillType;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
-import javax.validation.Valid;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.wonhyoek.DMaker.exception.DMakerErrorCode.LEVEL_EXPERIENCE_YEARS_NOT_MATCHED;
 
@@ -45,5 +48,18 @@ public class DMakerService {
         ) {
             throw new DMakerException(LEVEL_EXPERIENCE_YEARS_NOT_MATCHED);
         }
+    }
+
+    public List<DeveloperDto> getAllDevelopers() {
+        return developerRepository.findAll()
+                .stream().map(DeveloperDto::fromEntity)
+                .collect(Collectors.toList());
+    }
+
+    public DeveloperDetailDto getDeveloperDetail(String memberId) {
+        Developer developer = developerRepository.findByMemberId(memberId);
+        return DeveloperDetailDto.fromEntity(developer);
+
+
     }
 }
