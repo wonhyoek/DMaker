@@ -19,8 +19,8 @@ public class DMakerController {
     private final DMakerService dMakerService;
 
     @GetMapping("/developers")
-    public List<DeveloperDto> getAllDevelopers() {
-        return dMakerService.getAllDevelopers();
+    public List<DeveloperDto> getAllEmployedDevelopers() {
+        return dMakerService.getAllEmployedDevelopers();
     }
 
     @GetMapping("/developers/{memberId}")
@@ -46,4 +46,10 @@ public class DMakerController {
         return dMakerService.editDeveloper(memberId,request);
     }
 
+    @DeleteMapping("/developers/{memberId}")
+    public DeveloperDetailDto deleteDeveloper(
+            @PathVariable String memberId
+    ){
+        return dMakerService.deleteDeveloper(memberId);
+    }
 }
