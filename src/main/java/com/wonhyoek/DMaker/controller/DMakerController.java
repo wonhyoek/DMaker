@@ -17,12 +17,11 @@ public class DMakerController {
     private final DMakerService dMakerService;
 
     @PostMapping("/create-developer")
-    public String createDevelopers(
+    public CreateDeveloper.Response createDevelopers(
            @Valid @RequestBody CreateDeveloper.Request request
             ) {
         log.info("request: {}", request);
-        dMakerService.createDeveloper(request);
-        return "okay";
+        return dMakerService.createDeveloper(request);
     }
 
 }

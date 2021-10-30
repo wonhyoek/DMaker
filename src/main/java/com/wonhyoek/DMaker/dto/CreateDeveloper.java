@@ -1,5 +1,6 @@
 package com.wonhyoek.DMaker.dto;
 
+import com.wonhyoek.DMaker.entity.Developer;
 import com.wonhyoek.DMaker.type.DeveloperLevel;
 import com.wonhyoek.DMaker.type.DeveloperSkillType;
 import lombok.*;
@@ -24,7 +25,7 @@ public class CreateDeveloper {
         @NotNull
         @Min(0)
         @Max(20)
-        private Integer experience;
+        private Integer experienceYears;
 
         @NotNull
         @Size(min=3, max = 50, message = "memberId must be 3~50")
@@ -47,5 +48,14 @@ public class CreateDeveloper {
         private Integer experience;
 
         private String memberId;
+
+        public static Response fromEntity(Developer developer) {
+            return Response.builder()
+                    .developerLevel(developer.getDeveloperLevel())
+                    .developerSkillType(developer.getDeveloperSkillType())
+                    .experience(developer.getExperienceYears())
+                    .memberId(developer.getMemberId())
+                    .build();
+        }
     }
 }

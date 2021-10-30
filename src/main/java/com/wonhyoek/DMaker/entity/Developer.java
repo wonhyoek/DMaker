@@ -28,10 +28,10 @@ public class Developer {
     @Enumerated(EnumType.STRING)
     private DeveloperSkillType developerSkillType;
 
-    private int experienceYears;
+    private Integer experienceYears;
     private String memberId;
     private String name;
-    private int age;
+    private Integer age;
 
     @CreatedDate
     private LocalDateTime createdAt;
