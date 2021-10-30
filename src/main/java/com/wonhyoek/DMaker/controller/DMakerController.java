@@ -1,19 +1,27 @@
 package com.wonhyoek.DMaker.controller;
 
-import com.wonhyoek.DMaker.entity.Developer;
+import com.wonhyoek.DMaker.dto.CreateDeveloper;
 import com.wonhyoek.DMaker.service.DMakerService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.validation.Valid;
 
 @RestController
 @RequiredArgsConstructor
+@Slf4j
 public class DMakerController {
     private final DMakerService dMakerService;
 
-    @GetMapping("/create-developer")
-    public String createDevelopers(){
-        dMakerService.createDeveloper();
+    @PostMapping("/create-developer")
+    public String createDevelopers(
+           @Valid @RequestBody CreateDeveloper.Request request
+            ) {
+        log.info("request: {}", request);
+        dMakerService.createDeveloper(request);
         return "okay";
     }
 
