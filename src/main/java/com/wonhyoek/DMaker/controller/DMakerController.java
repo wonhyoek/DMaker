@@ -1,14 +1,14 @@
 package com.wonhyoek.DMaker.controller;
 
-import com.wonhyoek.DMaker.dto.CreateDeveloper;
-import com.wonhyoek.DMaker.dto.DeveloperDetailDto;
-import com.wonhyoek.DMaker.dto.DeveloperDto;
-import com.wonhyoek.DMaker.dto.EditDeveloper;
+import com.wonhyoek.DMaker.dto.*;
+import com.wonhyoek.DMaker.exception.DMakerException;
 import com.wonhyoek.DMaker.service.DMakerService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.List;
 
@@ -51,5 +51,23 @@ public class DMakerController {
             @PathVariable String memberId
     ){
         return dMakerService.deleteDeveloper(memberId);
+    }
+
+    @ResponseStatus(value = HttpStatus.CONFLICT)
+    @ExceptionHandler(DMakerException.class)
+    public DMakerErrorResponse handleException(
+            DMakerException e,
+            HttpServletRequest request
+    ){
+        log.error("errorCode: {}, url: {}, message: {}",
+                e.getDMakerErrorCode(),
+                request.getRequestURI(),
+                e.getDetailMessage()
+        );
+
+        return DMakerErrorResponse.builder()
+                .errorCode(e.getDMakerErrorCode())
+                .errorMessage(e.getDetailMessage())
+                .build();
     }
 }
