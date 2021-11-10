@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import javax.servlet.http.HttpServletRequest;
 
+import static com.wonhyoek.DMaker.exception.DMakerErrorCode.INTERNAL_SERVER_ERROR;
 import static com.wonhyoek.DMaker.exception.DMakerErrorCode.INVALID_REQUEST;
 
 @RestControllerAdvice
@@ -50,6 +51,22 @@ public class DMakerExceptionHandler {
         return DMakerErrorResponse.builder()
                 .errorCode(INVALID_REQUEST)
                 .errorMessage(INVALID_REQUEST.getDescription())
+                .build();
+    }
+
+    @ExceptionHandler(Exception.class)
+    public DMakerErrorResponse handleException(
+            Exception e,
+            HttpServletRequest request
+    ){
+        log.error("url: {}, message: {}",
+                request.getRequestURI(),
+                e.getMessage()
+        );
+
+        return DMakerErrorResponse.builder()
+                .errorCode(INTERNAL_SERVER_ERROR)
+                .errorMessage(INTERNAL_SERVER_ERROR.getDescription())
                 .build();
     }
 }
